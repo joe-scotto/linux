@@ -288,3 +288,114 @@ This will automatically mount devices when they are plugged into USB.
    :Lazy install
    :TSInstall c markdown json
    ```
+
+# Raspberry PI
+
+If not using a Raspberry Pi, you can skip these steps.
+
+1. Disable `power_save`.
+
+   `sudo nano /etc/systemd/system/wlan0pwr.service`
+
+   ```
+   [Unit]
+   Description=Disable wlan0 powersave
+   After=network-online.target
+   Wants=network-online.target
+
+   [Service]
+   Type=oneshot
+   ExecStart=/sbin/iw wlan0 set power_save off
+
+   [Install]
+   WantedBy=multi-user.target
+   ```
+
+   `sudo systemctl enable wlan0pwr`
+
+2. Overclock
+   ```
+   [all]
+   arm_freq=2000
+   ```
+3. SSH over USB-C.
+
+   `sudo apt install dnsmasq dhcpcd5`
+
+   ```
+   sudo chmod ugo+rwx /boot/firmware/config.txt
+   sudo chmod ugo+rwx /boot/firmware/cmdline.txt
+   sudo chmod ugo+rwx /etc/modules
+   sudo chmod ugo+rwx /etc/dhcpcd.conf
+   ```
+
+   ```
+   # sudo nano /boot/firmware/config.txt
+   dtoverlay=dwc2 # after [all]
+
+   # sudo nano /boot/firmware/cmdline.txt
+   modules-load=dwc2 # end of file
+
+   # sudo nano /etc/modules
+   libcomposite # end of file
+
+   # sudo nano /etc/dhcpcd.conf
+   denyinterfaces usb0 # end of file
+   ```
+
+   ```
+   # sudo nano /etc/dnsmasq.d/usb
+   interface=usb0
+   dhcp-range=10.55.0.2,10.55.0.6,255.255.255.248,1h
+   dhcp-option=3
+   leasefile-ro
+
+   # sudo nano /etc/network/interfaces.d/usb0
+   auto usb0
+   allow-hotplug usb0
+   iface usb0 inet static
+       address 10.55.0.1
+       netmask 255.255.255.248
+
+   # sudo nano /root/usb.sh
+   #!/bin/bash
+   cd /sys/kernel/config/usb_gadget/
+   mkdir -p pi4
+   cd pi4
+   echo 0x1d6b > idVendor # Linux Foundation
+   echo 0x0104 > idProduct # Multifunction Composite Gadget
+   echo 0x0100 > bcdDevice # v1.0.0
+   echo 0x0200 > bcdUSB # USB2
+   echo 0xEF > bDeviceClass
+   echo 0x02 > bDeviceSubClass
+   echo 0x01 > bDeviceProtocol
+   mkdir -p strings/0x409
+   echo "fedcba9876543211" > strings/0x409/serialnumber
+   echo "Joe Scotto" > strings/0x409/manufacturer
+   echo "RPI4" > strings/0x409/product
+   mkdir -p configs/c.1/strings/0x409
+   echo "Config 1: ECM network" > configs/c.1/strings/0x409/configuration
+   echo 250 > configs/c.1/MaxPower
+   # Add functions here
+   # see gadget configurations below
+   # End functions
+   mkdir -p functions/ecm.usb0
+   HOST="00:dc:c8:f7:75:14" # "HostPC"
+   SELF="00:dd:dc:eb:6d:a1" # "BadUSB"
+   echo $HOST > functions/ecm.usb0/host_addr
+   echo $SELF > functions/ecm.usb0/dev_addr
+   ln -s functions/ecm.usb0 configs/c.1/
+   udevadm settle -t 5 || :
+   ls /sys/class/udc > UDC
+   ifup usb0
+   service dnsmasq restart
+   ```
+
+   `sudo chmod +x /root/usb.sh`
+
+   ```
+   # sudo nano /etc/rc.local
+   sh /root/usb.sh # add before "exit 0"
+   ```
+
+   `sudo reboot`
