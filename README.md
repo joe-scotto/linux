@@ -280,3 +280,10 @@ This will automatically mount devices when they are plugged into USB.
      },
    }
    ```
+
+4. Install plugins.
+   ```
+   :MasonInstallAll
+   :Lazy install
+   :TSInstall c markdown json
+   ```
