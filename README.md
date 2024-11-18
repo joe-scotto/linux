@@ -399,3 +399,25 @@ If not using a Raspberry Pi, you can skip these steps.
    ```
 
    `sudo reboot`
+
+# QMK
+
+1. Install PIPX
+   ```
+   sudo apt install pipx
+   pipx ensurepath
+   pipx install qmk
+   ```
+2. Setup [QMK](https://github.com/qmk/qmk_firmware).
+   ```
+   qmk setup joe-scotto/qmk_firmware # replace with your repo
+   qmk doctor
+   ```
+3. Update git.
+   ```
+   git remote remove origin
+   git remote remove upstream
+   git remote add origin git@github.com:joe-scotto/qmk_firmware.git
+   git remote add upstream git@github.com:qmk/qmk_firmware.git
+   git push —set-upstream origin master
+   ```
