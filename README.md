@@ -1,12 +1,8 @@
 # Linux
 
----
-
 These are the steps I follow when setting up a new Linux machine.
 
 # Setup
-
----
 
 ### Updates
 
@@ -18,6 +14,8 @@ These are the steps I follow when setting up a new Linux machine.
     ```
 
 ### Git
+
+    Make sure to replace the config values with your information.
 
     ```
     sudo apt install git
