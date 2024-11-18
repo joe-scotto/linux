@@ -196,7 +196,87 @@ This will automatically mount devices when they are plugged into USB.
    git clone https://github.com/NvChad/starter ~/.config/nvim && nvim
    ```
 3. Setup NvChad configuration.
+   `sudo nano ~/.config/nvim/lua/chadrc.lua`
 
    ```
+   -- This file needs to have same structure as nvconfig.lua
+   -- https://github.com/NvChad/ui/blob/v3.0/lua/nvconfig.lua
+   -- Please read that file to know all available options :(
 
+   ---@type ChadrcConfig
+   local M = {}
+
+   M.base46 = {
+     theme = "chadracula",
+   }
+
+   -- Copy to clipboard
+
+   -- Disable line wrapping
+   local opt = vim.opt
+   opt.wrap = false
+
+   -- Conform auto formatting
+   require("conform").setup {
+     formatters_by_ft = {
+       angular = { "prettier" },
+       css = { "prettier" },
+       flow = { "prettier" },
+       graphql = { "prettier" },
+       html = { "prettier" },
+       json = { "prettier" },
+       jsx = { "prettier" },
+       javascript = { "prettier" },
+       less = { "prettier" },
+       markdown = { "prettier" },
+       scss = { "prettier" },
+       typescript = { "prettier" },
+       vue = { "prettier" },
+       yaml = { "prettier" },
+     },
+     format_on_save = {
+       lsp_format = "fallback",
+     },
+   }
+
+   -- Render markdown
+   require("render-markdown").setup {}
+
+   return M
+   ```
+
+   `sudo nano ~/.config/nvim/lua/plugins/init.lua`
+
+   ```
+   return {
+     {
+       "stevearc/conform.nvim",
+       event = "BufWritePre", -- uncomment for format on save
+       opts = require "configs.conform",
+     },
+     {
+       "neovim/nvim-lspconfig",
+       config = function()
+         require "configs.lspconfig"
+       end,
+     },
+     {
+       "mg979/vim-visual-multi",
+       lazy = false,
+       init = function()
+         vim.g.VM_maps = {
+           ["Find Under"] = "<C-j>",
+           ["Find Subword Under"] = "<C-j>",
+         }
+         vim.g.VM_theme = "purplegray"
+       end,
+     },
+     {
+       "MeanderingProgrammer/render-markdown.nvim",
+       dependencies = {
+         "nvim-treesitter/nvim-treesitter",
+       },
+       opts = {},
+     },
+   }
    ```
