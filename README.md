@@ -2,6 +2,8 @@
 
 These are the steps I follow when setting up a new Linux machine.
 
+**I recommend running most of these commands one at a time!**
+
 # Setup
 
 ### Updates
@@ -475,5 +477,5 @@ If not using a Raspberry Pi, you can skip these steps.
 7. Cleanup.
 
    _If you're on x86, replace `aarch64` with `x86_64`._
-   
+
    `rm zephyr-sdk-0.16.3_linux-aarch64.tar.xz`
