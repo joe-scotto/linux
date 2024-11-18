@@ -5,11 +5,14 @@ These are the steps I follow when setting up a new Linux machine.
 ### Setup
 
 1.  Updates
+
     After a fresh install, it's a good idea to make sure everything is up to date.
+
     ```
     sudo apt update
     sudo apt upgrade -y
     ```
+
 2.  Git
     ```
     sudo apt install git
@@ -28,6 +31,7 @@ These are the steps I follow when setting up a new Linux machine.
     ```
 4.  Automount
     This will allow devices to automatically mount when plugging them into USB ports.
+
     ```
 
     ```
