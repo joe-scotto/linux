@@ -96,15 +96,15 @@ This will automatically mount devices when they are plugged into USB.
 
 # ZSH
 
-1. Install
+1. Install ZSH.
    ```
    sudo apt install zsh zplug
    ```
-2. Powerlevel10k
+2. Powerlevel10k theme.
    ```
    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
    ```
-3. Setup `.zshrc`
+3. Setup `.zshrc` configuration.
    `sudo nano ~/.zshrc`
 
    ```
@@ -133,4 +133,47 @@ This will automatically mount devices when they are plugged into USB.
 4. Set ZSH as default shell.
    ```
    chsh -s /bin/zsh
+   ```
+
+# Tmux
+
+1. Install [tmux](https://github.com/tmux/tmux).
+   ```
+   sudo apt install tmux
+   ```
+2. Install [tpm](https://github.com/tmux-plugins/tpm).
+   ```
+   git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+   ```
+3. Setup `~.tmux.conf`.
+
+   ```
+   # Fix colors
+   set -g default-terminal "screen-256color"
+   set -as terminal-features ",xterm-256color:RGB"
+   set -g mouse on
+
+   # TPM
+   set -g @plugin 'tmux-plugins/tpm'
+   set -g @plugin 'tmux-plugins/tmux-sensible'
+
+   # Dracula
+   set -g @plugin 'dracula/tmux'
+   set -g @dracula-plugins "cpu-usage ram-usage time"
+   set -g @dracula-show-left-icon session
+   set -g @dracula-refresh-rate 1
+   set -g @dracula-show-timezone false
+   set -g @dracula-border-contrast true
+
+   # Run TPM
+   run '~/.tmux/plugins/tpm/tpm'
+
+   # Force pane color
+   set -g pane-active-border-style bg=default,fg="#4b4f66"
+   set -g pane-border-style fg="#4b4f66"
+   ```
+
+4. Reload tmux config.
+   ```
+   tmux source ~/.tmux.conf
    ```
