@@ -177,3 +177,26 @@ This will automatically mount devices when they are plugged into USB.
    ```
    tmux source ~/.tmux.conf
    ```
+
+# NeoVim
+
+1. Install [NeoVim](https://github.com/neovim/neovim).
+   ```
+   sudo apt-get install ninja-build gettext cmake unzip curl build-essential
+   git clone https://github.com/neovim/neovim
+   cd neovim
+   git checkout stable
+   make distclean
+   make CMAKE_BUILD_TYPE=Release
+   cd build && cpack -G DEB && sudo dpkg -i nvim-linux64.deb
+   rm-rf neovim
+   ```
+2. Install [NvChad](https://github.com/NvChad/starter).
+   ```
+   git clone https://github.com/NvChad/starter ~/.config/nvim && nvim
+   ```
+3. Setup NvChad configuration.
+
+   ```
+
+   ```
