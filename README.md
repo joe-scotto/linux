@@ -40,12 +40,15 @@ nvm install 23`
 
 This will automatically mount devices when they are plugged into USB.
 
-1. `sudo apt install pmount`
-2. `sudo nano /etc/udev/rules.d/usbstick.rules`
+1. Install [pmount](https://github.com/MisterDA/pmount).
+   `sudo apt install pmount`
+2. Setup `usbstick` rules.
+   `sudo nano /etc/udev/rules.d/usbstick.rules`
    ```
    ACTION=="add", KERNEL=="sd[a-z][0-9]", TAG+="systemd", ENV{SYSTEMD_WANTS}="usbstick-handler@%k"
    ```
-3. `sudo nano /lib/systemd/system/usbstick-handler@.service`
+3. Setup `usbstick` service.
+   `sudo nano /lib/systemd/system/usbstick-handler@.service`
 
    ```
    [Unit]
@@ -60,7 +63,8 @@ This will automatically mount devices when they are plugged into USB.
    ExecStop=/usr/bin/pumount /dev/%I
    ```
 
-4. `sudo nano /usr/local/bin/automount`
+4. Setup `automount` script.
+   `sudo nano /usr/local/bin/automount`
 
    ```
    #!/bin/bash
@@ -100,7 +104,8 @@ This will automatically mount devices when they are plugged into USB.
    ```
    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
    ```
-3. `sudo nano ~/.zshrc`
+3. Setup `.zshrc`
+   `sudo nano ~/.zshrc`
 
    ```
    # PIPX
