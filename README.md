@@ -421,3 +421,58 @@ If not using a Raspberry Pi, you can skip these steps.
    git remote add upstream git@github.com:qmk/qmk_firmware.git
    git push —set-upstream origin master
    ```
+
+# ZMK
+
+1. Clone your fork of [ZMK](https://github.com/zmkfirmware/zmk).
+
+   `git clone git@github.com/joe-scotto/zmk_firmware.git`
+
+2. Setup a python virtual environment.
+   ```
+   cd zmk_firmware
+   sudo apt install cmake ninja-build
+   python3 -m venv .venv
+   source .venv/bin/activate
+   ```
+3. Setup west.
+   ```
+   pip install west cmake
+   west init -l app
+   west update # Normal to take a long time
+   west zephyr-export
+   ```
+4. Install requirements.
+   ```
+   pip install -r zephyr/scripts/requirements-base.txt
+   pip install protobuf grpcio-tools
+   ```
+5. Setup [Zephyr](https://docs.zephyrproject.org/3.5.0/develop/getting_started/index.html#install-zephyr-sdk).
+
+   \_If you're on x86, replace `aarch64` with `x86_64`.
+
+   ```
+   cd ~
+   wget https://github.com/zephyrproject-rtos/sdk-ng/releases/download/v0.16.3/zephyr-sdk-0.16.3_linux-aarch64.tar.xz
+   wget -O - https://github.com/zephyrproject-rtos/sdk-ng/releases/download/v0.16.3/sha256.sum | shasum --check --ignore-missing
+   sudo tar xvf zephyr-sdk-0.16.3_linux-aarch64.tar.xz -C /bin
+   cd /bin/zephyr-sdk-0.16.3
+   ./setup.sh
+   sudo cp sysroots/aarch64-pokysdk-linux/usr/share/openocd/contrib/60-openocd.rules /etc/udev/rules.d/
+   sudo udevadm control --reload
+   ```
+
+6. Raspberry Pi.
+
+   ```
+   sudo apt install gcc-arm-none-eabi
+
+   # sudo nano ~/.zephyrrc
+   export ZEPHYR_TOOLCHAIN_VARIANT=cross-compile
+   export CROSS_COMPILE=/usr/bin/arm-none-eabi-
+   ```
+
+7. Cleanup.
+
+   \_If you're on x86, replace `aarch64` with `x86_64`.
+   `rm zephyr-sdk-0.16.3_linux-aarch64.tar.xz`
