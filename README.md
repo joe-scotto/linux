@@ -196,6 +196,7 @@ This will automatically mount devices when they are plugged into USB.
    git clone https://github.com/NvChad/starter ~/.config/nvim && nvim
    ```
 3. Setup NvChad configuration.
+
    `sudo nano ~/.config/nvim/lua/chadrc.lua`
 
    ```
