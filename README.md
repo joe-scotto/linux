@@ -6,7 +6,7 @@ These are the steps I follow when setting up a new Linux machine.
 
 ### Updates
 
-    After a fresh install, it's a good idea to make sure everything is up to date.
+After a fresh install, it's a good idea to make sure everything is up to date.
 
     ```
     sudo apt update
@@ -15,7 +15,7 @@ These are the steps I follow when setting up a new Linux machine.
 
 ### Git
 
-    Make sure to replace the config values with your information.
+Make sure to replace the config values with your information.
 
     ```
     sudo apt install git
@@ -28,16 +28,15 @@ These are the steps I follow when setting up a new Linux machine.
 
 ### Node
 
-    It is important to confirm the script matches [nodejs.org](https://nodejs.org/en/download/package-manager).
-    ```
-    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.0/install.sh | bash
+It is important to confirm the script matches [nodejs.org](https://nodejs.org/en/download/package-manager).
+`     curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.0/install.sh | bash
     exec bash
     nvm install 23
-    ```
+    `
 
 ### Automount
 
-    This will allow devices to automatically mount when plugging them into USB ports.
+This will allow devices to automatically mount when plugging them into USB ports.
 
     ```
 
