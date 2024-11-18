@@ -475,4 +475,5 @@ If not using a Raspberry Pi, you can skip these steps.
 7. Cleanup.
 
    _If you're on x86, replace `aarch64` with `x86_64`._
+   
    `rm zephyr-sdk-0.16.3_linux-aarch64.tar.xz`
