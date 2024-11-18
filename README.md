@@ -46,6 +46,7 @@ This will automatically mount devices when they are plugged into USB.
    ACTION=="add", KERNEL=="sd[a-z][0-9]", TAG+="systemd", ENV{SYSTEMD_WANTS}="usbstick-handler@%k"
    ```
 3. `sudo nano /lib/systemd/system/usbstick-handler@.service`
+
    ```
    [Unit]
    Description=Mount USB sticks
@@ -58,7 +59,9 @@ This will automatically mount devices when they are plugged into USB.
    ExecStart=/usr/local/bin/automount %I
    ExecStop=/usr/bin/pumount /dev/%I
    ```
+
 4. `sudo nano /usr/local/bin/automount`
+
    ```
    #!/bin/bash
 
@@ -72,8 +75,57 @@ This will automatically mount devices when they are plugged into USB.
        /usr/bin/pmount --umask 000 --noatime -w --sync /dev/${PART} /media/${FS_LABEL}
    fi
    ```
+
 5. Reload `udevadm`
    ```
    sudo chmod +x /usr/local/bin/automount
    udevadm control --reload
+   ```
+
+### Quality of Life
+
+1. Disable MOTD
+   ```
+   sudo nano /etc/motd # Delete everything in this file
+   touch ~/.hushlogin
+   ```
+
+# ZSH
+
+1. Install
+   ```
+   sudo apt install zsh zplug
+   ```
+2. Powerlevel10k
+   ```
+   git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
+   ```
+3. `sudo nano ~/.zshrc`
+
+   ```
+   # PIPX
+   export PATH="$PATH:/home/jscotto/.local/bin"
+
+   # NodeJS
+   export NVM_DIR="$HOME/.nvm"
+   [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+   [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+   # P10k
+   ZSH_THEME="powerlevel10k/powerlevel10k"
+   source ~/.oh-my-zsh/custom/themes/powerlevel10k/powerlevel10k.zsh-theme
+   [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+   # Auto cd
+   setopt autocd
+
+   #ZSH history
+   HISTSIZE=1000
+   SAVEHIST=1000
+   HISTFILE=~/.zsh_history
+   ```
+
+4. Set ZSH as default shell.
+   ```
+   chsh -s /bin/zsh
    ```
