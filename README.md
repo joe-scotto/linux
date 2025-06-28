@@ -173,6 +173,9 @@ This will automatically mount devices when they are plugged into USB.
    # Force pane color
    set -g pane-active-border-style bg=default,fg="#4b4f66"
    set -g pane-border-style fg="#4b4f66"
+
+   # Force longer pane numbers
+   set -g display-panes-time 2000
    ```
 
 4. Reload tmux config.
