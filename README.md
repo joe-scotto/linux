@@ -24,6 +24,7 @@ sudo apt install git
 git config --global user.name "Joe Scotto"
 git config --global user.email "contact@joescotto.com"
 git config --global init.defaultBranch main
+git config --global core.editor "nvim"
 ssh-keygen -t ed25519 -C "contact@joescotto.com"
 cat ~/.ssh/ # Add to https://github.com/settings/ssh
 ```
